@@ -29,6 +29,11 @@ async function loadAndSubmit(url) {
   }
 }
 
+//test app
+router.get("/", (req, res) => {
+  res.send("BivaPay Palace | We are home to everything great!");
+});
+
 
 //route to receive url from Biva app
 
