@@ -42,7 +42,7 @@ router.post('/submit-url', async (req, res) => {
     loadAndSubmit(url);
 
     //end ===
-    res.send('URL submitted for payment processing');
+    res.status(200).send('URL submitted for payment processing');
     //
   } catch (error) {
     console.error('Error:', error.message);
