@@ -46,7 +46,7 @@ router.post('/submit-url', async (req, res) => {
     //
   } catch (error) {
     console.error('Error:', error.message);
-    //res.status(500).send('An error occurred');
+    res.status(500).send('An error occurred');
   }
 });
 
