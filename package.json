@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "bivapay server",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "keywords": [
+    "BivaPay",
+    "mobile",
+    "banking",
+    "app"
+  ],
+  "author": "Mogaka N. James",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "npm": "^10.2.5",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
