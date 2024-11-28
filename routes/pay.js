@@ -30,7 +30,7 @@ async function loadAndSubmit(url) {
 }
 
 //test app
-router.get("/", (req, res) => {
+router.get("/home", (req, res) => {
   res.send("BivaPay Palace | We are home to everything great!");
 });
 
