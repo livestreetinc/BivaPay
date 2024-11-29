@@ -39,9 +39,13 @@ router.get("/home", (req, res) => {
 
 router.post('/submit-url', async (req, res) => {
   //
-  const url = req.body.url;  // Replace with the URL you want to interact with
-  //
-  try {
+  const { url } = req.body;
+
+  if (!url) {
+    // If the URL is missing, respond with an error
+    return res.status(400).json({ error: 'URL is required' });
+  } else {
+
     //load url
     //
     loadAndSubmit(url);
@@ -49,9 +53,6 @@ router.post('/submit-url', async (req, res) => {
     //end ===
     res.status(200).send("URL submitted for payment processing");
     //
-  } catch (error) {
-    console.error("Error:", error.message);
-    res.status(500).send("An error occurred");
   }
 });
 
