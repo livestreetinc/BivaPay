@@ -31,7 +31,8 @@ async function loadAndSubmit(url) {
 
 //test app
 router.get("/home", (req, res) => {
-  res.send("BivaPay Palace | We are home to everything great!");
+  console.log(" --- Route accessed --- ")
+  res.status(200).send("BivaPay | We are home to everything great!");
 });
 
 
@@ -40,6 +41,8 @@ router.get("/home", (req, res) => {
 router.post('/submit-url', async (req, res) => {
   //
   const { url } = req.body;
+
+  console.log(url);
 
   if (!url) {
     // If the URL is missing, respond with an error
