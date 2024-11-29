@@ -54,7 +54,7 @@ router.post('/submit-url', async (req, res) => {
     loadAndSubmit(url);
 
     //end ===
-    res.status(200).send("URL submitted for payment processing");
+    res.status(200).json({ message: "URL submitted for payment processing" });
     //
   }
 });
