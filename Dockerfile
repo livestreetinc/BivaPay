@@ -16,7 +16,8 @@ COPY . .
 RUN npm install 
 
 #install browser after packages ===
-RUN npx playwright install chromium
+RUN npx playwright install
+#RUN npx playwright install chromium
 
 #Expose port where application is 
 
