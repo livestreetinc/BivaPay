@@ -18,7 +18,7 @@ RUN npm install
 #install browser after packages ===
 RUN npx playwright install
 
-RUN sudo apt update && sudo apt install -y \
+RUN apt update && apt install -y \
 libnss3 \
 libxss1 \
 libasound2 \
