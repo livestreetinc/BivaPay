@@ -16,7 +16,10 @@ COPY . .
 RUN npm install 
 
 #install browser after packages ===
-RUN npx playwright install
+# RUN npx playwright install
+RUN npm install -D @playwright/test@latest
+# Also download new browser binaries and their dependencies:
+RUN npx playwright install --with-deps
 
 
 #Install Browser
