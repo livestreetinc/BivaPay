@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js and Playwright dependencies
-RUN npm install -g npm@latest
+RUN npm install
 
 RUN npx playwright install --with-deps
 
