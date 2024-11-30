@@ -15,6 +15,10 @@ COPY . .
 
 RUN npm install 
 
+#install browser after packages ===
+RUN npx playwright install
+
+
 #Install Browser
 
 #Expose port where application is 
@@ -24,3 +28,4 @@ EXPOSE 8080
 #Set entry command for the node application
 
 CMD [ "node", "index.js" ]
+
