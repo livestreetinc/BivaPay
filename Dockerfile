@@ -1,5 +1,7 @@
 #Use the official Node image with version
 FROM node:20-alpine
+# Use the official Playwright image as the base (recommended)
+FROM mcr.microsoft.com/playwright:v1.38.0-jammy
 
 #Create the app folder/or directory in the docker container
 WORKDIR /app
@@ -13,11 +15,30 @@ COPY . .
 #Install dependencies, and anything else just like the teminal, 
 #incase of any other command, add a separate RUN limne
 
-RUN npm install 
+# Install any additional dependencies you need (if any)
+RUN apt-get update && apt-get install -y \
+    libasound2 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libgbm1 \
+    libgtk-3-0 \
+    libpango-1.0-0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libxshmfence1 \
+    fonts-liberation \
+    libnss3 \
+    libxss1 \
+    ca-certificates \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-#install browser after packages ===
-RUN npx playwright install
-#RUN npx playwright install chromium
+# Install Node.js and Playwright dependencies
+RUN npm install -g npm@latest
+
+RUN npx playwright install --with-deps
 
 #Expose port where application is 
 
