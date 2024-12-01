@@ -1,5 +1,6 @@
 #Use the official Node image with version
 FROM node:20-alpine
+
 # Use the official Playwright image as the base (recommended)
 FROM mcr.microsoft.com/playwright:v1.38.0-jammy
 
@@ -35,16 +36,15 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js and Playwright dependencies
+# Install package.json dependenecies
 RUN npm install
 
+#install playwright dependencies
 RUN npx playwright install --with-deps
 
 #Expose port where application is 
-
 EXPOSE 8080
 
 #Set entry command for the node application
-
 CMD [ "node", "index.js" ]
 
