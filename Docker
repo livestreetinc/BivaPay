@@ -1,7 +1,10 @@
-# Use the official Playwright image as the base (includes Node.js)
+#Use the official Node image with version
+FROM node:20-alpine
+
+# Use the official Playwright image as the base (recommended)
 FROM mcr.microsoft.com/playwright:v1.38.0-jammy
 
-# Set the working directory in the container
+#Create the app folder/or directory in the docker container
 WORKDIR /app
 
 #Copy all files to the current current directory(app)
@@ -39,11 +42,9 @@ RUN npm install
 #Install playwright dependencies
 RUN npx playwright install --with-deps
 
-#Install pm2 process manager for the app ==
-RUN npm install pm2 -g
-
-# Expose the port the app will run on
+#Expose port where application is 
 EXPOSE 8080
 
-# Use PM2 to run the app
-CMD ["pm2-runtime", "index.js"]
+#Set entry command for the node application
+CMD [ "node", "index.js" ]
+
