@@ -36,6 +36,7 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+
 # Install package.json dependenecies
 RUN npm install
 
