@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080" # Map port 8080 from the container to the host
+    restart: always # Ensures the container restarts if anything happens
+    volumes:
+      - .:/app # Maps the current directory to /app in the container
+    environment: # - NODE_ENV=production  # Optional: Set environment variables if needed
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
