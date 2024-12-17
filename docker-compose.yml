@@ -8,7 +8,7 @@ services:
     restart: always # Ensures the container restarts if anything happens
     volumes:
       - .:/app # Maps the current directory to /app in the container
-    environment: # - NODE_ENV=production  # Optional: Set environment variables if needed
+    # environment: # - NODE_ENV=production  # Optional: Set environment variables if needed
     networks:
       - app-network
 
