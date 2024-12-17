@@ -52,6 +52,13 @@ router.post('/submit-url', async (req, res) => {
     }
 });
 
+//test app
+router.get("/home", (req, res) => {
+    console.log(" --- Route accessed --- ")
+    res.status(200).send("BivaPay | We are home to everything great!");
+});
+//
+
 // Gracefully close the browser on server shutdown
 process.on('SIGINT', async () => {
     if (browser) {
