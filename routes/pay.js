@@ -1,63 +1,64 @@
 const router = require("express").Router();
-const playwright = require('playwright');  // Import Playwright
+const playwright = require('playwright');
 
-//function to run the url and click the submit button
-async function loadAndSubmit(url) {
-  // Launch a headless browser
-  const browser = await playwright.chromium.launch();  // You can choose 'chromium', 'firefox', or 'webkit'
-  const page = await browser.newPage();
+let browser; // Browser instance
+let context; // Browser context
 
-  try {
-    // Navigate to the URL
-    await page.goto(url);
-
-    // Wait for the submit button to appear (adjust the selector as needed)
-    const submitButtonSelector = 'button[type="submit"]'; // Update the selector if necessary
-    //
-    await page.waitForSelector(submitButtonSelector);
-
-    // Click the submit button
-    await page.click(submitButtonSelector);
-
-    console.log("Submit button clicked successfully!");
-
-  } catch (error) {
-    console.error("Error:", error);
-  } finally {
-    // Close the browser
-    await browser.close();
-  }
+// Function to initialize the browser once
+async function initializeBrowser() {
+    if (!browser) {
+        browser = await playwright.chromium.launch({
+            headless: true, // Keep it headless for performance
+        });
+        context = await browser.newContext(); // Single context shared across pages
+        console.log("Browser initialized!");
+    }
 }
 
-//test app
-router.get("/home", (req, res) => {
-  console.log(" --- Route accessed --- ")
-  res.status(200).send("BivaPay | We are home to everything great!");
-});
+// Function to load the URL and click the submit button
+async function loadAndSubmit(url) {
+    const page = await context.newPage(); // Create a new page
+    try {
+        await page.goto(url, { timeout: 10000 }); // Set timeout for navigation
+        const submitButtonSelector = 'button[type="submit"]';
 
+        // Wait for the submit button and click it
+        await page.waitForSelector(submitButtonSelector, { timeout: 5000 });
+        await page.click(submitButtonSelector);
 
-//route to receive url from Biva app
+        console.log("Submit button clicked successfully:", url);
+    } catch (error) {
+        console.error("Error processing URL:", url, error.message);
+    } finally {
+        await page.close(); // Clean up the page after processing
+    }
+}
 
+// Route to receive URL from Biva app
 router.post('/submit-url', async (req, res) => {
-  //
-  const { url } = req.body;
+    const { url } = req.body;
 
-  console.log(url);
+    if (!url) {
+        return res.status(400).json({ error: 'URL is required' });
+    }
 
-  if (!url) {
-    // If the URL is missing, respond with an error
-    return res.status(400).json({ error: 'URL is required' });
-  } else {
-
-    //load url
-    //
-    loadAndSubmit(url);
-
-    //end ===
-    res.status(200).json({ message: "URL submitted for payment processing" });
-    //
-  }
+    try {
+        await initializeBrowser(); // Ensure the browser is running
+        loadAndSubmit(url); // Process the URL in the background
+        res.status(200).json({ message: "URL submitted for payment processing" });
+    } catch (error) {
+        console.error("Error in POST /submit-url:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
-//
+// Gracefully close the browser on server shutdown
+process.on('SIGINT', async () => {
+    if (browser) {
+        await browser.close();
+        console.log("Browser closed!");
+    }
+    process.exit(0);
+});
+
 module.exports = router;
